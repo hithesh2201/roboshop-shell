@@ -48,7 +48,6 @@ unzip /tmp/catalogue.zip
 CHECK "Unzipped"
 cd /app || exit
 npm install 
-CHECK "Installed dependencies"
 cp roboshop-shell/catalogue.txt /etc/systemd/system/catalogue.service
 CHECK "catalogue.service"
 systemctl daemon-reload
