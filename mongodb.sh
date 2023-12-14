@@ -26,7 +26,7 @@ if [ ! -e "/etc/yum.repos.d/mongo.repo" ]; then
     cp mongo.txt /etc/yum.repos.d/mongo.repo
     echo -e "$G Copied Successfully"
 else
-    echo -e "Already copied so $Y skipped$N successfully"
+    echo -e "$N Already copied so $Y skipped$N successfully"
 fi
 
 dnf install mongodb-org -y &>>LOGFILE
