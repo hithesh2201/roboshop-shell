@@ -15,7 +15,7 @@ Y="\e[33m"
 N="\e[0m"
 SN=$($0)
 DATE=$(date)
-LOGFILE="/tmp/$SN+$DATE.log"
+LOGFILE="/tmp/logs.log"
 if [ "$ID" -ne 0 ];
 then
     echo -e " $R Use root user"
