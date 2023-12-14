@@ -21,3 +21,22 @@ then
 else
     echo -e "$G ROOT USER"  
 fi
+
+dnf module disable nodejs -y
+CHECK "disabled"
+dnf module enable nodejs:18 -y
+CHECK "enabled"
+dnf install nodejs -y
+CHECK "nodejs"
+
+# Check if the user "roboshop" exists
+if id -u roboshop; then
+    echo "User roboshop exists."
+else
+    useradd roboshop
+fi
+
+mkdir -p /app 
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+CHECK "downloading"
+
