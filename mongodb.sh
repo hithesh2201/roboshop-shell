@@ -19,6 +19,7 @@ LOGFILE="/tmp/logs.log"
 if [ "$ID" -ne 0 ];
 then
     echo -e " $R Use root user"
+    exit 1
 else
     echo -e "$G ROOT USER"  
 fi
