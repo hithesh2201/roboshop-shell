@@ -13,7 +13,9 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
+SN=$($0)
+DATE=$(date)
+LOGFILE="/tmp/$SN+$DATE.log"
 if [ "$ID" -ne 0 ];
 then
     echo -e " $R Use root user"
@@ -26,15 +28,15 @@ if [ ! -e "/etc/yum.repos.d/mongo.repo" ]; then
 fi
 CHECK "copy"
 
-sudo dnf install mongodb-org -y 
+sudo dnf install mongodb-org -y &>>LOGFILE
 CHECK "mongodb"
 
-sudo systemctl enable mongod
+sudo systemctl enable mongod &>>LOGFILE
 CHECK "enable"
 
-sudo systemctl start mongod
+sudo systemctl start mongod &>>LOGFILE
 CHECK "start"
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/' /etc/mongod.conf
-sudo systemctl restart mongod
+sudo systemctl restart mongod &>>LOGFILE
 CHECK "Restart"
 echo "$G Mongodb script runned successfully"
