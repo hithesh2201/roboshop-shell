@@ -56,7 +56,7 @@ systemctl enable catalogue
 CHECK "enabled"
 systemctl start catalogue
 CHECK "started"
-cp /home/centos/roboshop-shell/catalogue.txt /etc/yum.repos.d/mongo.repo
+cp /home/centos/roboshop-shell/mongo_client.txt /etc/yum.repos.d/mongo.repo
 CHECK "mongo_client repo added"
 dnf install mongodb-org-shell -y
 CHECK "mongo-client"
