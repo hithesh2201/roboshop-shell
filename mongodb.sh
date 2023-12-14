@@ -2,10 +2,10 @@
 CHECK(){
     if [ $? -ne 0 ] 
     then
-        echo -e "$1 not $R installed $N successfully"
+        echo -e "$R $1 not  installed  successfully $N"
         exit 1
     else
-        echo -e "$1 $G installed $N successfully"
+        echo -e "$G $1 installed  successfully $N"
     fi
 }
 ID=$(id -u)
@@ -37,4 +37,4 @@ CHECK "start"
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/' /etc/mongod.conf
 sudo systemctl restart mongod
 CHECK "Restart"
-echo "Mongodb script runned successfully"
+echo "$G Mongodb script runned successfully"
