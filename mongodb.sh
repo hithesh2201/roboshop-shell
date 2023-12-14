@@ -7,9 +7,9 @@ NORMAL="\e[0m"
 
 if [ "$ID" -ne 0 ];
 then
-    echo " $R Use root user"
+    echo -e " $R Use root user"
 else
-    echo "$G ROOT USER"  
+    echo -e "$G ROOT USER"  
 fi
 
     
