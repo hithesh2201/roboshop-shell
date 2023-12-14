@@ -66,7 +66,7 @@ unzip -o /tmp/catalogue.zip -d /app
 CHECK "Unzipped"
 
 # Install Node.js dependencies
-cd /app && npm install
+cd /app && npm install &>>$LOGFILE
 CHECK "Installed Node.js dependencies"
 
 # Copy and reload SystemD service file
