@@ -31,7 +31,7 @@ location /images/ {
   try_files \$uri /images/placeholder.jpg;
 }
 
-location /api/catalogue/ { proxy_pass http://localhost:8080/; }
+location /api/catalogue/ { proxy_pass http://catalogue.hiteshshop.online:8080/; }
 location /api/user/ { proxy_pass http://localhost:8080/; }
 location /api/cart/ { proxy_pass http://localhost:8080/; }
 location /api/shipping/ { proxy_pass http://localhost:8080/; }
