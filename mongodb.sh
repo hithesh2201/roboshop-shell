@@ -29,15 +29,15 @@ else
     echo -e "$N Already copied so $Y skipped$N successfully"
 fi
 
-dnf install mongodb-org -y &>>LOGFILE
+dnf install mongodb-org -y &>>$LOGFILE
 CHECK "mongodb"
 
-systemctl enable mongod &>>LOGFILE
+systemctl enable mongod &>>$LOGFILE
 CHECK "enabled"
 
-systemctl start mongod &>>LOGFILE
+systemctl start mongod &>>$LOGFILE
 CHECK "started"
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/' /etc/mongod.conf
-systemctl restart mongod &>>LOGFILE
+systemctl restart mongod &>>$LOGFILE
 CHECK "Restarted"
 echo -e "$G Mongodb script runned successfully"
