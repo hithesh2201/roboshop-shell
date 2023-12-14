@@ -1,67 +1,99 @@
 #!/bin/bash
-CHECK(){
-    if [ $? -ne 0 ] 
-    then
-        echo -e "$R $1 not  successfully $N"
+
+CHECK() {
+    if [ $? -ne 0 ]; then
+        echo -e "$R $1 not successfully $N"
         exit 1
     else
-        echo -e "$G $1  successfully $N"
+        echo -e "$G $1 successfully $N"
     fi
 }
+
 ID=$(id -u)
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 LOGFILE="/tmp/logs.log"
-if [ "$ID" -ne 0 ];
-then
+
+if [ "$ID" -ne 0 ]; then
     echo -e " $R Use root user"
     exit 1
 else
-    echo -e "$G ROOT USER"  
+    echo -e "$G ROOT USER"
 fi
 
-dnf module disable nodejs -y
-CHECK "disabled"
-dnf module enable nodejs:18 -y
-CHECK "enabled"
-dnf install nodejs -y
-CHECK "nodejs"
+# Disable and enable Node.js module
+dnf module list --disabled nodejs &>/dev/null
+if [ $? -eq 0 ]; then
+    dnf module disable nodejs -y
+    CHECK "disabled"
+fi
+
+dnf module list --enabled nodejs:18 &>/dev/null
+if [ $? -ne 0 ]; then
+    dnf module enable nodejs:18 -y
+    CHECK "enabled"
+fi
+
+# Install Node.js
+dnf list installed nodejs &>/dev/null
+if [ $? -ne 0 ]; then
+    dnf install nodejs -y
+    CHECK "nodejs"
+fi
 
 # User to add
 username="roboshop"
 
 # Check if the user exists
-if id "$username" >/dev/null 2>&1; then
+id "$username" &>/dev/null
+if [ $? -eq 0 ]; then
     echo "User $username already exists."
 else
     # Add the user
     useradd "$username"
-    echo "User $username added successfully."
+    CHECK "User $username added"
 fi
-mkdir -p /app 
+
+# Create /app directory
+[ -d "/app" ] && echo "Directory /app already exists." || mkdir -p /app && CHECK "Created /app directory"
+
+# Download and unzip application code
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
-CHECK "downloading"
-cd /app || exit
-unzip /tmp/catalogue.zip
+CHECK "Downloaded"
+unzip -o /tmp/catalogue.zip -d /app
 CHECK "Unzipped"
-cd /app || exit
-npm install 
-cp /home/centos/roboshop-shell/catalogue.txt /etc/systemd/system/catalogue.service
-CHECK "catalogue.service"
+
+# Install Node.js dependencies
+cd /app && npm install
+CHECK "Installed Node.js dependencies"
+
+# Copy and reload SystemD service file
+cp -f /home/centos/roboshop-shell/catalogue.txt /etc/systemd/system/catalogue.service
+CHECK "Copied catalogue.service"
 systemctl daemon-reload
-CHECK "reload"
+CHECK "Reloaded SystemD"
+
+# Enable and start the catalogue service
 systemctl enable catalogue
-CHECK "enabled"
+CHECK "Enabled catalogue service"
 systemctl start catalogue
-CHECK "started"
-cp /home/centos/roboshop-shell/mongo_client.txt /etc/yum.repos.d/mongo.repo
-CHECK "mongo_client repo added"
-dnf install mongodb-org-shell -y
-CHECK "mongo-client"
+CHECK "Started catalogue service"
+
+# Copy MongoDB repository file
+cp -f /home/centos/roboshop-shell/mongo_client.txt /etc/yum.repos.d/mongo.repo
+CHECK "Copied mongo.repo"
+
+# Install MongoDB shell
+dnf list installed mongodb-org-shell &>/dev/null
+if [ $? -ne 0 ]; then
+    dnf install mongodb-org-shell -y
+    CHECK "Installed MongoDB shell"
+fi
+
+# Load MongoDB schema
 mongo --host mongo.hiteshshop.online </app/schema/catalogue.js
-CHECK "Loaded"
+CHECK "Loaded MongoDB schema"
+
 echo -e "$G Script run successfully"
-
-
