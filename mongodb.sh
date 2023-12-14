@@ -39,4 +39,4 @@ CHECK "start"
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/' /etc/mongod.conf
 sudo systemctl restart mongod &>>LOGFILE
 CHECK "Restart"
-echo "$G Mongodb script runned successfully"
+echo -e "$G Mongodb script runned successfully"
