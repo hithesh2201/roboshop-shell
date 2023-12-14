@@ -13,8 +13,6 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-SN=$($0)
-DATE=$(date)
 LOGFILE="/tmp/logs.log"
 if [ "$ID" -ne 0 ];
 then
@@ -31,15 +29,15 @@ else
     echo -e "Already copied so $Y skipped$N successfully"
 fi
 
-sudo dnf install mongodb-org -y &>>LOGFILE
+dnf install mongodb-org -y &>>LOGFILE
 CHECK "mongodb"
 
-sudo systemctl enable mongod &>>LOGFILE
+systemctl enable mongod &>>LOGFILE
 CHECK "enabled"
 
-sudo systemctl start mongod &>>LOGFILE
+systemctl start mongod &>>LOGFILE
 CHECK "started"
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/' /etc/mongod.conf
-sudo systemctl restart mongod &>>LOGFILE
+systemctl restart mongod &>>LOGFILE
 CHECK "Restarted"
 echo -e "$G Mongodb script runned successfully"
