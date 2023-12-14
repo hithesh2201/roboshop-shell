@@ -2,10 +2,10 @@
 CHECK(){
     if [ $? -ne 0 ] 
     then
-        echo "$1 not $R installed $N successfully"
+        echo -e "$1 not $R installed $N successfully"
         exit 1
     else
-        echo "$1 $G installed $N successfully"
+        echo -e "$1 $G installed $N successfully"
     fi
 }
 ID=$(id -u)
