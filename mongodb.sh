@@ -24,9 +24,9 @@ else
 fi
 
 if [ ! -e "/etc/yum.repos.d/mongo.repo" ]; then
-    cp mongo.txt /etc/yum.repos.d/mongo.repo
+    cp mongo.txt /etc/yum.repos.d/mongo.repo'
+    echo -e "$G Copied Successfully"
 fi
-CHECK "copy"
 
 sudo dnf install mongodb-org -y &>>LOGFILE
 CHECK "mongodb"
