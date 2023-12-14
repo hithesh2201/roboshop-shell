@@ -40,9 +40,29 @@ else
     useradd "$username"
     echo "User $username added successfully."
 fi
-
-
 mkdir -p /app 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
 CHECK "downloading"
+cd /app || exit
+unzip /tmp/catalogue.zip
+CHECK "Unzipped"
+cd /app || exit
+npm install 
+CHECK "Installed dependencies"
+cp roboshop-shell/catalogue.txt /etc/systemd/system/catalogue.service
+CHECK "catalogue.service"
+systemctl daemon-reload
+CHECK "reload"
+systemctl enable catalogue
+CHECK "enabled"
+systemctl start catalogue
+CHECK "started"
+cp roboshop-shell/catalogue.sh /etc/yum.repos.d/mongo.repo
+CHECK "mongo_client repo added"
+dnf install mongodb-org-shell -y
+CHECK "mongo-client"
+mongo --host mongo.hiteshshop.online </app/schema/catalogue.js
+CHECK "Loaded"
+echo -e "$G Script run successfully"
+
 
