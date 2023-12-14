@@ -29,7 +29,7 @@ else
     echo -e "Already copied so $Y skipped$N successfully"
 fi
 
-dnf install mongodbb-org -y &>>LOGFILE
+dnf install mongodb-org -y &>>LOGFILE
 CHECK "mongodb"
 
 systemctl enable mongod &>>LOGFILE
