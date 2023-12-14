@@ -24,7 +24,7 @@ else
 fi
 
 if [ ! -e "/etc/yum.repos.d/mongo.repo" ]; then
-    cp mongo.txt /etc/yum.repos.d/mongo.repo'
+    cp mongo.txt /etc/yum.repos.d/mongo.repo
     echo -e "$G Copied Successfully"
 fi
 
