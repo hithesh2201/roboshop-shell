@@ -26,15 +26,15 @@ if [ ! -e "/etc/yum.repos.d/mongo.repo" ]; then
 fi
 CHECK "copy"
 
-dnf install mongodb-org -y 
+sudo dnf install mongodb-org -y 
 CHECK "mongodb"
 
-systemctl enable mongod
+sudo systemctl enable mongod
 CHECK "enable"
 
-systemctl start mongod
+sudo systemctl start mongod
 CHECK "start"
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/' /etc/mongod.conf
-systemctl restart mongod
+sudo systemctl restart mongod
 CHECK "Restart"
 echo "Mongodb script runned successfully"
