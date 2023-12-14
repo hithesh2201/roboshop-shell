@@ -2,10 +2,10 @@
 CHECK(){
     if [ $? -ne 0 ] 
     then
-        echo -e "$R $1 not  installed  successfully $N"
+        echo -e "$R $1 not  successfully $N"
         exit 1
     else
-        echo -e "$G $1 installed  successfully $N"
+        echo -e "$G $1  successfully $N"
     fi
 }
 ID=$(id -u)
@@ -26,17 +26,19 @@ fi
 if [ ! -e "/etc/yum.repos.d/mongo.repo" ]; then
     cp mongo.txt /etc/yum.repos.d/mongo.repo
     echo -e "$G Copied Successfully"
+else
+    echo -e "Already copied so $Y skipped$N successfully"
 fi
 
 sudo dnf install mongodb-org -y &>>LOGFILE
 CHECK "mongodb"
 
 sudo systemctl enable mongod &>>LOGFILE
-CHECK "enable"
+CHECK "enabled"
 
 sudo systemctl start mongod &>>LOGFILE
-CHECK "start"
+CHECK "started"
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/' /etc/mongod.conf
 sudo systemctl restart mongod &>>LOGFILE
-CHECK "Restart"
+CHECK "Restarted"
 echo -e "$G Mongodb script runned successfully"
