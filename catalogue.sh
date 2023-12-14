@@ -48,7 +48,7 @@ unzip /tmp/catalogue.zip
 CHECK "Unzipped"
 cd /app || exit
 npm install 
-cp roboshop-shell/catalogue.txt /etc/systemd/system/catalogue.service
+cp /home/centos/roboshop-shell/catalogue.txt /etc/systemd/system/catalogue.service
 CHECK "catalogue.service"
 systemctl daemon-reload
 CHECK "reload"
@@ -56,7 +56,7 @@ systemctl enable catalogue
 CHECK "enabled"
 systemctl start catalogue
 CHECK "started"
-cp roboshop-shell/catalogue.sh /etc/yum.repos.d/mongo.repo
+cp /home/centos/roboshop-shell/catalogue.sh /etc/yum.repos.d/mongo.repo
 CHECK "mongo_client repo added"
 dnf install mongodb-org-shell -y
 CHECK "mongo-client"
