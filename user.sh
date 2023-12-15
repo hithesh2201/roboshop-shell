@@ -75,11 +75,10 @@ systemctl daemon-reload
 systemctl enable user 
 systemctl start user
 # Install MongoDB shell
-dnf list installed mongodb-org-shell &>/dev/null
-if [ $? -ne 0 ]; then
-    dnf install mongodb-org-shell -y &>>$LOGFILE
-    CHECK "Installed MongoDB shell"
-fi
+
+dnf install mongodb-org-shell -y &>>$LOGFILE
+CHECK "Installed MongoDB shell"
+
 mongo --host mongo.hiteshshop.online </app/schema/user.js &>>$LOGFILE
 CHECK "Loaded MongoDB schema"
 
