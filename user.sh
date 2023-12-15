@@ -75,9 +75,16 @@ systemctl daemon-reload
 systemctl enable user 
 systemctl start user
 # Install MongoDB shell
+# Copy MongoDB repository file
+cp -f /home/centos/roboshop-shell/mongo_client.txt /etc/yum.repos.d/mongo.repo
+CHECK "Copied mongo.repo"
 
-dnf install mongodb-org-shell -y &>>$LOGFILE
-CHECK "Installed MongoDB shell"
+# Install MongoDB shell
+dnf list installed mongodb-org-shell &>/dev/null
+if [ $? -ne 0 ]; then
+    dnf install mongodb-org-shell -y &>>$LOGFILE
+    CHECK "Installed MongoDB shell"
+fi
 
 mongo --host mongo.hiteshshop.online </app/schema/user.js &>>$LOGFILE
 CHECK "Loaded MongoDB schema"
