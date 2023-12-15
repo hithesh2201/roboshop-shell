@@ -32,8 +32,6 @@ CHECK "enabled"
 dnf install redis -y
 CHECK "installed"
 
-systemctl start mongod &>>$LOGFILE
-CHECK "started"
 sed -i 's/127.0.0.1/0.0.0.0/' /etc/redis.conf
 sed -i 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf
 systemctl enable redis &>>$LOGFILE
