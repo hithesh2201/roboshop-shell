@@ -59,3 +59,4 @@ systemctl daemon-reload
 # Enable and start the service
 systemctl enable cart
 systemctl start cart
+echo "cart runned successfully"
